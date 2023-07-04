@@ -5,7 +5,9 @@ import com.champ.retrospeaks.dto.AuthRequestDto;
 import com.champ.retrospeaks.dto.AuthResponseDto;
 import com.champ.retrospeaks.dto.ErrorResponseDto;
 import com.champ.retrospeaks.dto.RegisterRequest;
+import com.champ.retrospeaks.mapper.AuthMapper;
 import com.champ.retrospeaks.service.AuthenticateService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -14,18 +16,19 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+
+
 
 
     private final AuthenticateService authService;
 
 
     @Autowired
-    public AuthController(AuthenticateService authService) {
+    public AuthController( AuthenticateService authService) {
         this.authService = authService;
     }
 
@@ -41,36 +44,27 @@ public class AuthController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                ErrorResponseDto.builder()
-                        .errorMessage(exception.getMessage())
-                        .TimeStamp(LocalDateTime.now())
-                        .build());
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthMapper.exceptionToErrorResponseDto(exception));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(IllegalArgumentException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                ErrorResponseDto.builder()
-                        .errorMessage(exception.getMessage())
-                        .TimeStamp(LocalDateTime.now())
-                        .build());
-
+    public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(BadCredentialsException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthMapper.exceptionToErrorResponseDto(exception));
 
 
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(IllegalArgumentException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                ErrorResponseDto.builder()
-                        .errorMessage(exception.getMessage())
-                        .TimeStamp(LocalDateTime.now())
-                        .build());
+    public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException exception) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthMapper.exceptionToErrorResponseDto(exception));
 
     }
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorResponseDto> handleExpiredJwtException(ExpiredJwtException exception) {
 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthMapper.exceptionToErrorResponseDto(exception));
 
+    }
 
 }
