@@ -4,6 +4,8 @@ import com.champ.retrospeaks.config.security.JwtService;
 import com.champ.retrospeaks.dto.AuthRequestDto;
 import com.champ.retrospeaks.dto.AuthResponseDto;
 import com.champ.retrospeaks.dto.RegisterRequest;
+import com.champ.retrospeaks.mapper.AuthMapper;
+import com.champ.retrospeaks.mapper.UserMapper;
 import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.repository.UserRepository;
 import com.champ.retrospeaks.service.AuthenticateService;
@@ -47,29 +49,17 @@ public class AuthenticateServiceImpl implements AuthenticateService {
         User user = userRepository.findByUserName(authRequestDto.getUserName())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         String jwtToken = jwtService.generateToken(user);
-        return AuthResponseDto.builder()
-                .token(jwtToken)
-                .build();
+        return AuthMapper.mapToDto(jwtToken, "Successful  Login");
     }
 
     @Override
     public AuthResponseDto register(RegisterRequest registerRequest) {
-        User user = User.builder()
-                .firstName(registerRequest.getFirstName())
-                .userName(registerRequest.getUserName())
-                .lastName(registerRequest.getLastName())
-                .email(registerRequest.getEmail())
-                .passWord(passwordEncoder.encode(registerRequest.getPassWord()))
-                .gender(registerRequest.getGender())
-                .build();
 
+        User user = UserMapper.registerRequestToUser(registerRequest,passwordEncoder);
         userRepository.save(user);
-
         String jwtToken = jwtService.generateToken(user);
 
-        return AuthResponseDto.builder()
-                .token(jwtToken)
-                .message("Successful Registration")
-                .build();
+        return AuthMapper.mapToDto(jwtToken, "Successful Registration");
+
     }
 }

@@ -1,13 +1,19 @@
 package com.champ.retrospeaks.mapper;
 
 
+import com.champ.retrospeaks.dto.AuthResponseDto;
 import com.champ.retrospeaks.dto.ErrorResponseDto;
-import lombok.Builder;
+
 
 import java.time.LocalDateTime;
 
 
 public class AuthMapper {
+
+    //Don't allow to create an instance for utility class
+    private AuthMapper(){
+        throw new IllegalStateException("Utility Class");
+    }
 
 
 
@@ -18,6 +24,15 @@ public class AuthMapper {
                 .TimeStamp(LocalDateTime.now())
                 .build();
     }
+    public static AuthResponseDto mapToDto(String jwtToken, String message) {
+        return AuthResponseDto.builder()
+                .token(jwtToken)
+                .message(message)
+                .build();
+    }
+
+
+
 
 
 

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
-//Add a configuration file that implements WebMvcConfigurer so we can override its addCorsMapping method
+//Add a configuration file that implements WebMvcConfigurer, so we can override its addCorsMapping method
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
     @Override
