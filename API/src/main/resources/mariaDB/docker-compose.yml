@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  retrospeaks:
+  retrospeaksMariaDB:
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -9,11 +9,11 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - data:/var/lib/retrospeaks/mysql
+      - mariaDB_data_container:/var/lib/retrospeaks/mysql
     ports:
       - "3306:3306"
 
 volumes:
-  data:
+  mariaDB_data_container:
 
 

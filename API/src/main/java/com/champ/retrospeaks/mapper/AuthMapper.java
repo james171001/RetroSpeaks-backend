@@ -21,7 +21,7 @@ public class AuthMapper {
 
         return ErrorResponseDto.builder()
                 .errorMessage(e.getMessage())
-                .TimeStamp(LocalDateTime.now())
+                .timeStamp(LocalDateTime.now())
                 .build();
     }
     public static AuthResponseDto mapToDto(String jwtToken, String message) {

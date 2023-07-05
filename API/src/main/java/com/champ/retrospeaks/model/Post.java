@@ -2,17 +2,15 @@ package com.champ.retrospeaks.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
+@Document(collection = "post")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
     private int userID;
     private int postType;
     private String title;
