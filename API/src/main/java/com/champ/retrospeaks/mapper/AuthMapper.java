@@ -1,7 +1,7 @@
 package com.champ.retrospeaks.mapper;
 
 
-import com.champ.retrospeaks.dto.AuthResponseDto;
+import com.champ.retrospeaks.dto.Auth.AuthResponseDto;
 import com.champ.retrospeaks.dto.ErrorResponseDto;
 
 

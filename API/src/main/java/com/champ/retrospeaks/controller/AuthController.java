@@ -1,10 +1,10 @@
 package com.champ.retrospeaks.controller;
 
 
-import com.champ.retrospeaks.dto.AuthRequestDto;
-import com.champ.retrospeaks.dto.AuthResponseDto;
+import com.champ.retrospeaks.dto.Auth.AuthRequestDto;
+import com.champ.retrospeaks.dto.Auth.AuthResponseDto;
 import com.champ.retrospeaks.dto.ErrorResponseDto;
-import com.champ.retrospeaks.dto.RegisterRequest;
+import com.champ.retrospeaks.dto.Auth.RegisterRequest;
 import com.champ.retrospeaks.mapper.AuthMapper;
 import com.champ.retrospeaks.service.AuthenticateService;
 import io.jsonwebtoken.ExpiredJwtException;

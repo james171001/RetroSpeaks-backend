@@ -1,9 +1,9 @@
 package com.champ.retrospeaks.service.impl;
 
 import com.champ.retrospeaks.config.security.JwtService;
-import com.champ.retrospeaks.dto.AuthRequestDto;
-import com.champ.retrospeaks.dto.AuthResponseDto;
-import com.champ.retrospeaks.dto.RegisterRequest;
+import com.champ.retrospeaks.dto.Auth.AuthRequestDto;
+import com.champ.retrospeaks.dto.Auth.AuthResponseDto;
+import com.champ.retrospeaks.dto.Auth.RegisterRequest;
 import com.champ.retrospeaks.mapper.AuthMapper;
 import com.champ.retrospeaks.mapper.UserMapper;
 import com.champ.retrospeaks.model.User;

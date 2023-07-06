@@ -1,4 +1,4 @@
-package com.champ.retrospeaks.dto;
+package com.champ.retrospeaks.dto.Auth;
 
 
 import lombok.AllArgsConstructor;
