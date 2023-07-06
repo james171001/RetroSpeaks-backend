@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +21,13 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
 
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public GroupServiceImpl(GroupRepository groupRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, UserRepository userRepository) {
         this.groupRepository = groupRepository;
-
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -45,19 +46,24 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDto> findAll() {
         List<Group> groups = groupRepository.findAll();
 
-        return groups.stream().map(GroupMapper::toGroupDto).collect(Collectors.toList());
+        if (groups.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return groups.stream()
+                .map(GroupMapper::toGroupDto)
+                .collect(Collectors.toList());
     }
 
 
     @Override
     @Transactional
-    public  void create (GroupForCreationDto groupForCreationDto) {
+    public void create(GroupForCreationDto groupForCreationDto, String userName) {
+        User owner = userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
 
         Group group = GroupMapper.toGroup(groupForCreationDto);
-
+        group.setGroupOwner(owner.getId());
         groupRepository.save(group);
-
-
 
 
     }

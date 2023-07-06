@@ -1,7 +1,9 @@
 package com.champ.retrospeaks.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Data
 @Builder
 @Entity(name = "groups")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

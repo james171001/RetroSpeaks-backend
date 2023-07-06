@@ -10,5 +10,5 @@ public class GroupForCreationDto {
 
     private String name;
     private String description;
-    private long groupOwner;
+
 }

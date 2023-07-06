@@ -11,7 +11,7 @@ public interface GroupService {
 
     List<GroupDto> findAll();
 
-     void create (GroupForCreationDto groupForCreationDto);
+     void create (GroupForCreationDto groupForCreationDto, String owner);
 
 
 

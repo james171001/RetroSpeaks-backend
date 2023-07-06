@@ -8,7 +8,7 @@
 //import org.springframework.web.bind.annotation.RestController;
 //
 //@RestController
-//@RequestMapping("/api/post")
+//@RequestMapping("/api/group/:id/post/:")
 //public class PostController {
 //
 //    @PostMapping
