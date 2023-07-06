@@ -5,6 +5,8 @@
 1. run docker-compose up -d for the docker-compose.yml in the resource folder
 2. after creation , run this command
 # Create user
+use admin
+
 db.createUser({user: "user", pwd: "password", roles:["root"]})
 db.grantRolesToUser('user', [{ role: 'root', db: 'admin' }])
 
