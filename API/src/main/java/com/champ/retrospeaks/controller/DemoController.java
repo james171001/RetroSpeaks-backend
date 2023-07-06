@@ -1,6 +1,7 @@
 package com.champ.retrospeaks.controller;
 
 
+import com.champ.retrospeaks.dto.Auth.AuthRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,9 @@ public class DemoController {
 
 
 
-    @GetMapping("")
-    public ResponseEntity<String> demo(){
-        return ResponseEntity.ok("Hello");
+    @GetMapping
+    public ResponseEntity<AuthRequestDto> demo(){
+        AuthRequestDto authRequestDto = new AuthRequestDto("12312","2312");
+        return ResponseEntity.ok(authRequestDto);
     }
 }

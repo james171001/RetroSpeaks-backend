@@ -22,13 +22,13 @@ public class GroupController {
         this.groupService = groupService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<GroupDto>> getAllGroups() {
         List<GroupDto> groups = groupService.findAll();
         return ResponseEntity.ok(groups);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<List<GroupDto>> createGroup(@RequestBody GroupForCreationDto groupForCreationDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         groupService.create(groupForCreationDto);
@@ -36,3 +36,4 @@ public class GroupController {
         return ResponseEntity.ok(groups);
     }
 }
+
