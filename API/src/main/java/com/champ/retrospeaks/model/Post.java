@@ -1,21 +1,24 @@
 package com.champ.retrospeaks.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.time.LocalDateTime;
 @Builder
 @Data
 @Document(collection = "post")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private Long userID;
     private String username;
@@ -25,6 +28,8 @@ public class Post {
     private LocalDateTime postDate;
     private String category;
     private int groupId;
+    private int agreeCount;
+    private int disagreeCount;
 
 
 }

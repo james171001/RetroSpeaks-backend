@@ -2,10 +2,8 @@ package com.champ.retrospeaks.mapper;
 
 import com.champ.retrospeaks.dto.Post.PostDto;
 import com.champ.retrospeaks.model.Post;
-import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.repository.UserRepository;
 import com.champ.retrospeaks.service.UserService;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
@@ -13,30 +11,34 @@ import java.util.Optional;
 public class PostMapper {
     static UserRepository userRepository;
     static UserService userService;
-    public static Post toPost(PostDto postDto){
+    public static Post toPost(Optional<PostDto> postDto){
         return Post.builder()
-                .id(postDto.getId())
-                .userID(postDto.getUserID())
-                .username(postDto.getUsername())
-                .postType(postDto.getPostType())
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .postDate(postDto.getPostDate())
-                .category(postDto.getCategory())
-                .groupId(postDto.getGroupId())
+                .id(postDto.get().getId())
+                .userID(postDto.get().getUserID())
+                .username(postDto.get().getUsername())
+                .postType(postDto.get().getPostType())
+                .title(postDto.get().getTitle())
+                .content(postDto.get().getContent())
+                .postDate(postDto.get().getPostDate())
+                .category(postDto.get().getCategory())
+                .groupId(postDto.get().getGroupId())
+                .agreeCount(postDto.get().getAgreeCount())
+                .disagreeCount(postDto.get().getDisagreeCount())
                 .build();
     }
 
-    public static PostDto toPostDto(Post post){
+    public static PostDto toPostDto(Optional<Post> post){
 
         return PostDto.builder()
-                .username(post.getUsername())
-                .postType(post.getPostType())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .postDate(post.getPostDate())
-                .category(post.getCategory())
-                .groupId(post.getGroupId())
+                .username(post.get().getUsername())
+                .postType(post.get().getPostType())
+                .title(post.get().getTitle())
+                .content(post.get().getContent())
+                .postDate(post.get().getPostDate())
+                .category(post.get().getCategory())
+                .groupId(post.get().getGroupId())
+                .agreeCount(post.get().getAgreeCount())
+                .disagreeCount(post.get().getDisagreeCount())
                 .build();
     }
 }

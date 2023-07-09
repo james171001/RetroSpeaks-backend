@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends MongoRepository<Post,String>{
     List<Post> findAllByGroupId(int groupId);
+    List<Post> findAllPostByUserID(Long userID);
+
 }
