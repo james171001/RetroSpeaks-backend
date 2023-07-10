@@ -17,9 +17,12 @@ public interface GroupService {
 
      void update (GroupForCreationDto groupForCreationDto, String owner, Long groupId);
 
+<<<<<<< Updated upstream
     void followGroup(String userName,Long groupId);
      void unfollowGroup(String userName,Long groupId);
 
+=======
+>>>>>>> Stashed changes
 
 
 

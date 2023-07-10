@@ -28,6 +28,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+<<<<<<< Updated upstream
     @GetMapping("/view-post/{id}")
     public ResponseEntity<PostDto> getPostByID(@PathVariable String id){
         PostDto postDto = postService.getPostById(id);
@@ -35,6 +36,9 @@ public class PostController {
     }
 
     @GetMapping()
+=======
+    @GetMapping
+>>>>>>> Stashed changes
     public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) {
         List<PostDto> posts = postService.getAllPostByGroupId(groupId);
         return ResponseEntity.ok(posts);

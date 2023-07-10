@@ -108,6 +108,7 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
+<<<<<<< Updated upstream
     @Override
     @Transactional
     public void followGroup(String userName, Long groupId) {
@@ -145,6 +146,8 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.save(group);
         userRepository.save(user);
     }
+=======
+>>>>>>> Stashed changes
 
 
 }
