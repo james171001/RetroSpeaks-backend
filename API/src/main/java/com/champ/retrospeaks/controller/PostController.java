@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("api/group/{groupId}/post")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     @Autowired
     public PostController(PostService postService) {
@@ -34,9 +34,7 @@ public class PostController {
         return ResponseEntity.ok(postDto);
     }
 
-
-
-    @GetMapping("/group/{groupId}")
+    @GetMapping()
     public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) {
         List<PostDto> posts = postService.getAllPostByGroupId(groupId);
         return ResponseEntity.ok(posts);

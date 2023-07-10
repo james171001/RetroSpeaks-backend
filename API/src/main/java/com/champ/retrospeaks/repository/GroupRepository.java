@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group,Long> {
+    boolean existsByName(String name);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
 }

@@ -21,7 +21,9 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String name;
+
     private String description;
 
     @CreationTimestamp
@@ -32,6 +34,7 @@ public class Group {
 
     private Long groupOwner;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy ="groups",cascade = CascadeType.ALL)
+
     private List<User> users;
 }

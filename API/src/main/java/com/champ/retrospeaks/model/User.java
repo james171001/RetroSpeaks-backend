@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @Id
     private Long id;
 
-
+    @Column(unique = true)
     private String userName;
 
     private String passWord;
@@ -38,7 +38,7 @@ public class User implements UserDetails {
 
     @CreationTimestamp
     private LocalDate createdDate;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_groups",
             joinColumns = @JoinColumn(name = "user_id"),

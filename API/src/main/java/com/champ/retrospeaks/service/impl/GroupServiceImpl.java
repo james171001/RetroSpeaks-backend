@@ -55,16 +55,96 @@ public class GroupServiceImpl implements GroupService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Boolean isGroupExist(Long id) {
+        boolean isExist;
+        isExist = groupRepository.existsById(id);
+        return isExist;
+
+
+    }
+
 
     @Override
     @Transactional
     public void create(GroupForCreationDto groupForCreationDto, String userName) {
-        User owner = userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
+        User owner = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
 
         Group group = GroupMapper.toGroup(groupForCreationDto);
         group.setGroupOwner(owner.getId());
-        groupRepository.save(group);
 
-
+        try {
+            groupRepository.save(group);
+        } catch (Exception e) {
+            // Handle the exception appropriately, e.g., log or rethrow
+            throw new RuntimeException("Failed to create group.", e);
+        }
     }
+
+    @Override
+    @Transactional
+    public void update(GroupForCreationDto groupForCreationDto, String userName, Long groupId) {
+        User owner = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Group ID"));
+
+        if (!group.getGroupOwner().equals(owner.getId())) {
+            throw new IllegalArgumentException("Only the group owner can update the group.");
+        }
+        if (groupRepository.existsByNameIgnoreCaseAndIdNot(groupForCreationDto.getName(),groupId)) {
+            throw new IllegalArgumentException("Group name must be unique.");
+        }
+        group.setName(groupForCreationDto.getName());
+        group.setDescription(group.getDescription());
+
+        try {
+            groupRepository.save(group);
+        } catch (Exception e) {
+            // Handle the exception appropriately, e.g., log or rethrow
+            throw new RuntimeException("Failed to update group.", e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void followGroup(String userName, Long groupId) {
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new IllegalArgumentException("User does not exist"));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group does not exist"));
+
+        if (!group.getUsers().contains(user)) {
+            group.getUsers().add(user);
+            user.getGroups().add(group);
+        }
+
+        groupRepository.save(group);
+        userRepository.save(user);
+    }
+
+
+
+    @Override
+    @Transactional
+    public void unfollowGroup(String userName, Long groupId) {
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(()-> new IllegalArgumentException("User does not exist"));
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group does not exist"));
+
+        if (group.getUsers().contains(user)) {
+            group.getUsers().remove(user);
+            user.getGroups().remove(group);
+        }
+
+        groupRepository.save(group);
+        userRepository.save(user);
+    }
+
+
 }
