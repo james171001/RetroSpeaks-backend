@@ -30,11 +30,13 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
     @GetMapping("/view-post/{id}")
     public ResponseEntity<PostDto> getPostByID(@PathVariable String id){
         PostDto postDto = postService.getPostById(id);
         return ResponseEntity.ok(postDto);
     }
+
 
     @GetMapping
     public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) {

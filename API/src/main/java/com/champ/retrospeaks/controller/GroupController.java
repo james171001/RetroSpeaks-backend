@@ -58,6 +58,7 @@ public class GroupController {
             throw new IllegalArgumentException("No username found");
         }
         groupService.update(groupForCreationDto, userName, id);
+
         List<GroupDto> groups = groupService.findAll();
         return ResponseEntity.ok(groups);
     }
@@ -80,6 +81,7 @@ public class GroupController {
             throw new IllegalArgumentException("No username found");
         }
         groupService.unfollowGroup(userName,id);
+
         List<GroupDto> groups = groupService.findAll();
         return ResponseEntity.ok(groups);
     }
