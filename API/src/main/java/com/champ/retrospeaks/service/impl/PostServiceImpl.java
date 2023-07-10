@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,14 +67,35 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<PostDto> agreePost(String id) {
+    public Optional<PostDto> agreePost(String id, String currentUsername) {
         Optional<Post> existingPost = postRepository.findById(id);
+        Optional<User> currentUser = userRepository.findByUserName(currentUsername);
+
 
         if (existingPost.isPresent()) {
             Post post = existingPost.get();
-            int agreeCount = post.getAgreeCount() + 1;
-            post.setAgreeCount(agreeCount);
-            postRepository.save(post);
+
+            //check if there is an existing voter lists
+            if(existingPost.get().getVoterList() == null){
+                List<Long> voterList = new ArrayList<>();
+                currentUser.get();
+                voterList.add(currentUser.get().getId());
+                int agreeCount = post.getAgreeCount() + 1;
+                post.setAgreeCount(agreeCount);
+                post.setVoterList(voterList);
+                postRepository.save(post);
+            }
+            else {
+                List<Long> existingVoters = post.getVoterList();
+                if (!existingVoters.contains(currentUser.get().getId())) {
+                    existingVoters.add(currentUser.get().getId());
+                    int agreeCount = post.getAgreeCount() + 1;
+                    post.setAgreeCount(agreeCount);
+                    post.setVoterList(existingVoters);
+                    postRepository.save(post);
+                }
+            }
+
             return Optional.of(toPostDto(Optional.of(post)));
         }
 
@@ -81,13 +103,35 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<PostDto> disAgreePost(String id) {
+    public Optional<PostDto> disAgreePost(String id, String currentUsername) {
         Optional<Post> existingPost = postRepository.findById(id);
+        Optional<User> currentUser = userRepository.findByUserName(currentUsername);
+
+
         if (existingPost.isPresent()) {
             Post post = existingPost.get();
-            int disagreeCount = post.getDisagreeCount()+1;
-            post.setDisagreeCount(disagreeCount);
-            postRepository.save(post);
+
+            //check if there is an existing voter lists
+            if(existingPost.get().getVoterList() == null){
+                List<Long> voterList = new ArrayList<>();
+                currentUser.get();
+                voterList.add(currentUser.get().getId());
+                int disagreeCount = post.getDisagreeCount() + 1;
+                post.setAgreeCount(disagreeCount);
+                post.setVoterList(voterList);
+                postRepository.save(post);
+            }
+            else {
+                List<Long> existingVoters = post.getVoterList();
+                if (!existingVoters.contains(currentUser.get().getId())) {
+                    existingVoters.add(currentUser.get().getId());
+                    int disagreeCount = post.getDisagreeCount() + 1;
+                    post.setAgreeCount(disagreeCount);
+                    post.setVoterList(existingVoters);
+                    postRepository.save(post);
+                }
+            }
+
             return Optional.of(toPostDto(Optional.of(post)));
         }
         return Optional.empty();
@@ -101,8 +145,6 @@ public class PostServiceImpl implements PostService {
             Post post = existingPost.get();
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent());
-            // Update other fields as needed
-
             Post updatedPost = postRepository.save(post);
             return Optional.of(toPostDto(Optional.of(updatedPost)));
         }

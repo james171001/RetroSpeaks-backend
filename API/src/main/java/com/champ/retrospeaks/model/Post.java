@@ -1,5 +1,6 @@
 package com.champ.retrospeaks.model;
 
+import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +38,8 @@ public class Post {
     private int groupId;
     private int agreeCount;
     private int disagreeCount;
+    @Nullable
+    private List<Long> voterList;
 
 
 }

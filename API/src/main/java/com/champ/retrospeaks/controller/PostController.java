@@ -2,10 +2,12 @@ package com.champ.retrospeaks.controller;
 
 
 import com.champ.retrospeaks.dto.Post.PostDto;
+import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,17 +30,13 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-<<<<<<< Updated upstream
     @GetMapping("/view-post/{id}")
     public ResponseEntity<PostDto> getPostByID(@PathVariable String id){
         PostDto postDto = postService.getPostById(id);
         return ResponseEntity.ok(postDto);
     }
 
-    @GetMapping()
-=======
     @GetMapping
->>>>>>> Stashed changes
     public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) {
         List<PostDto> posts = postService.getAllPostByGroupId(groupId);
         return ResponseEntity.ok(posts);
@@ -57,7 +55,8 @@ public class PostController {
 
     @GetMapping("/agreeToPost/{id}")
     public ResponseEntity<PostDto> voteAgreeToPost(@PathVariable String id) {
-        Optional<PostDto> postOptional = postService.agreePost(id);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<PostDto> postOptional = postService.agreePost(id, username);
         if (postOptional.isPresent()) {
             PostDto postDto = postOptional.get();
             return ResponseEntity.ok(postDto);
@@ -69,7 +68,8 @@ public class PostController {
 
     @GetMapping("/disagreeToPost/{id}")
     public ResponseEntity<PostDto> voteDisagreeToPost(@PathVariable String id) {
-        Optional<PostDto> postOptional = postService.disAgreePost(id);
+       String username =  SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<PostDto> postOptional = postService.disAgreePost(id, username);
         if (postOptional.isPresent()) {
             PostDto postDto = postOptional.get();
             return ResponseEntity.ok(postDto);

@@ -127,7 +127,7 @@ class PostServiceImplTest {
         when(postRepository.findById("1")).thenReturn(Optional.of(post));
 
         // Call the agreePost method
-        Optional<PostDto> result1 = postService.agreePost("1");
+        Optional<PostDto> result1 = postService.agreePost("1", "john_doe");
 
         // Verify that the postRepository.findById method was called
         verify(postRepository, times(1)).findById("1");
@@ -167,7 +167,7 @@ class PostServiceImplTest {
         when(postRepository.findById("1")).thenReturn(Optional.of(post));
 
         // Call the disagreePost method
-        Optional<PostDto> result1 = postService.disAgreePost("1");
+        Optional<PostDto> result1 = postService.disAgreePost("1", "john_doe");
 
         // Verify that the postRepository.findById method was called
         verify(postRepository, times(1)).findById("1");

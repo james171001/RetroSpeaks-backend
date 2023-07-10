@@ -17,9 +17,9 @@ public interface PostService {
 
     public List<PostDto> getAllPostByUserID(Long userID);
 
-    public Optional<PostDto> agreePost(String id);
+    public Optional<PostDto> agreePost(String id, String currentUsername);
 
-    public Optional<PostDto> disAgreePost(String id);
+    public Optional<PostDto> disAgreePost(String id, String currentUsername);
 
     public Optional<PostDto> updatePost(PostDto postDto);
 
