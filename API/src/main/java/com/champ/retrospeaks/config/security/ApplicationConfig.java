@@ -4,6 +4,8 @@ import com.champ.retrospeaks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -50,5 +52,16 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        // Configure the mail sender properties
+        mailSender.setHost("your-mail-host");
+        mailSender.setPort(587);
+        mailSender.setUsername("retrospeaks.service2023@gmail.com");
+        mailSender.setPassword("Admin123456789!");
+        // Additional configuration if needed
+        return mailSender;
+    }
 
 }

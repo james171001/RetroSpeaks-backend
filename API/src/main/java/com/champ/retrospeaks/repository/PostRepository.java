@@ -10,5 +10,4 @@ import java.util.List;
 public interface PostRepository extends MongoRepository<Post,String>{
     List<Post> findAllByGroupId(int groupId);
     List<Post> findAllPostByUserID(Long userID);
-
 }

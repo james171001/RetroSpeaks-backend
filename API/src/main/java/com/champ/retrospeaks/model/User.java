@@ -36,6 +36,9 @@ public class User implements UserDetails {
 
     private String gender;
 
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String resetToken;
+
     @CreationTimestamp
     private LocalDate createdDate;
     @ManyToMany(cascade = CascadeType.ALL)
