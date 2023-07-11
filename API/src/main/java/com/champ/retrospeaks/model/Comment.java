@@ -29,14 +29,11 @@ public class Comment {
 
     private String content;
 
-    @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @UpdateTimestamp
     private LocalDateTime updatedDate;
 
     private String parentCommentID;
 
-    @DocumentReference(lazy = true)
-    private Post post;
+    private String postId;
 }
