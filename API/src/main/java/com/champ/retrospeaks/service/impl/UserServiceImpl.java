@@ -29,4 +29,7 @@ public class UserServiceImpl implements UserService {
 
         return user.getEmail();
     }
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUserName(username);
+    }
 }

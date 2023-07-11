@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/group/{groupId}/post")
+@RequestMapping("api/post")
 public class PostController {
 
     private final PostService postService;
