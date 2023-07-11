@@ -78,15 +78,16 @@ package com.champ.retrospeaks.controller;
 //}
 
 
+import com.champ.retrospeaks.model.ForgotPassword;
 import com.champ.retrospeaks.model.User;
+import com.champ.retrospeaks.repository.UserRepository;
 import com.champ.retrospeaks.service.ForgotPasswordService;
+import com.champ.retrospeaks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -94,19 +95,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class ForgotPasswordController {
 
     private final ForgotPasswordService forgotPasswordService;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public ForgotPasswordController(ForgotPasswordService forgotPasswordService) {
+    public ForgotPasswordController(ForgotPasswordService forgotPasswordService, UserRepository userRepository, UserService userService) {
         this.forgotPasswordService = forgotPasswordService;
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> initiatePasswordReset(@RequestBody Email email) {
-        forgotPasswordService.sendPasswordResetEmail(email.email);
-        return ResponseEntity.status(HttpStatus.OK).body("Password reset email sent successfully");
+    public String sendResetPasswordEmail(@RequestBody ForgotPassword forgotPassword, Model model) {
+        String email = forgotPassword.getEmail();
+        // Check if the email exists in the system
+        Optional<User> optionalUser = userService.findByEmail(email);
+        if (optionalUser.isEmpty()){
+            return "no user found";
+        }
+        if (optionalUser.isPresent()) {
+            forgotPasswordService.sendPasswordResetEmail(email);
+            model.addAttribute("emailSent", true);
+        } else {
+            model.addAttribute("emailSent", false);
+            return "password reset fail";
+        }
+        return "reset-password-email-sent";
     }
 }
 
-class Email{
-    String email;
-}

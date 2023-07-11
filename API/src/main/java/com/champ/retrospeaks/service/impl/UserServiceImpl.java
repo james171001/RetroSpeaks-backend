@@ -29,11 +29,13 @@ public class UserServiceImpl implements UserService {
 
         return user.getEmail();
     }
-<<<<<<< Updated upstream
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUserName(username);
     }
-=======
 
->>>>>>> Stashed changes
+    @Override
+    public Optional<User> findByEmail(String email) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
+        return existingUser;
+    }
 }

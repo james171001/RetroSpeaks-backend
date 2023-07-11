@@ -4,6 +4,7 @@ import com.champ.retrospeaks.model.ResetToken;
 import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.repository.ResetTokenRepository;
 import com.champ.retrospeaks.repository.UserRepository;
+import com.champ.retrospeaks.service.EmailSenderService;
 import com.champ.retrospeaks.service.ForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -94,18 +95,20 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     private final UserRepository userRepository;
     private final ResetTokenRepository tokenRepository;
     private final JavaMailSender javaMailSender;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public ForgotPasswordServiceImpl(UserRepository userRepository, ResetTokenRepository tokenRepository,
-                                     JavaMailSender javaMailSender) {
+                                     JavaMailSender javaMailSender, EmailSenderService emailSenderService) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.javaMailSender = javaMailSender;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
     public void sendPasswordResetEmail(String email) {
-        Optional<User> optionalUser = userRepository.findByEmail("jameserne9@gmail.com");
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
@@ -123,7 +126,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             tokenRepository.save(token);
 
             // Send the password reset email
-            sendEmail(user.getEmail(), resetToken);
+        emailSenderService.sendEmail(email, "Password Reset", resetToken);
         }
     }
 
