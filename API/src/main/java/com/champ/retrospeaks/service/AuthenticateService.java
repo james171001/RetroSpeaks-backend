@@ -10,4 +10,6 @@ public interface AuthenticateService {
     AuthResponseDto authenticate(AuthRequestDto authRequestDto);
 
     AuthResponseDto register(RegisterRequest registerRequest);
+
+
 }

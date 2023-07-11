@@ -39,6 +39,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.authenticate(loginRequest));
     }
 
+    @GetMapping("accountVerification/{token}")
+    public ResponseEntity<String> verifyAccount(@PathVariable String token){
+        authService.verifyAccount(token);
+    };
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthMapper.exceptionToErrorResponseDto(exception));

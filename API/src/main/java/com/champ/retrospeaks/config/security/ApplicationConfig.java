@@ -52,16 +52,4 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        // Configure the mail sender properties
-        mailSender.setHost("your-mail-host");
-        mailSender.setPort(587);
-        mailSender.setUsername("retrospeaks.service2023@gmail.com");
-        mailSender.setPassword("Admin123456789!");
-        // Additional configuration if needed
-        return mailSender;
-    }
-
 }
