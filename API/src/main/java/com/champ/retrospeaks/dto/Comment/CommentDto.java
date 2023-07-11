@@ -1,6 +1,5 @@
 package com.champ.retrospeaks.dto.Comment;
 
-import com.champ.retrospeaks.model.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
