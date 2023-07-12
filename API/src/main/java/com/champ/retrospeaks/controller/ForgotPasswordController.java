@@ -122,5 +122,16 @@ public class ForgotPasswordController {
         }
         return "reset-password-email-sent";
     }
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(@RequestParam("token") String resetToken, Model model) {
+        if (forgotPasswordService.isValidResetToken(resetToken)) {
+            model.addAttribute("resetToken", resetToken);
+            return "change-password";
+        } else {
+            // Invalid reset token
+            return "error"; // Replace with desired error page
+        }
+    }
 }
 

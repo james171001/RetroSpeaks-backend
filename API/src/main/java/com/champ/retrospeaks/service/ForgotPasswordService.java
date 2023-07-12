@@ -12,5 +12,6 @@ import com.champ.retrospeaks.model.User;
 
 public interface ForgotPasswordService {
     void sendPasswordResetEmail(String email);
+    boolean isValidResetToken(String resetToken);
 }
 
