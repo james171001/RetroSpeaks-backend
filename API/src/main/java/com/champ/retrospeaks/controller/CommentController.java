@@ -2,7 +2,6 @@ package com.champ.retrospeaks.controller;
 
 
 import com.champ.retrospeaks.dto.Comment.CommentDto;
-import com.champ.retrospeaks.dto.Group.GroupForCreationDto;
 import com.champ.retrospeaks.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +29,18 @@ public class CommentController {
 
     @PutMapping("/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable("commentId") String commentId,
-                                              @RequestBody GroupForCreationDto groupDto,
-                                              @RequestParam("owner") String owner) {
-        commentService.update(groupDto, owner, Long.valueOf(commentId));
+                                              @RequestBody CommentDto commentDto)
+    {
+        commentDto.setId(commentId);
+        commentService.update(commentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("commentId") String commentId)
+    {
+        commentService.delete(commentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

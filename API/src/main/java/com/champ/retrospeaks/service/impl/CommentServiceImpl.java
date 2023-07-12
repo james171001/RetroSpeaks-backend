@@ -47,16 +47,30 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void update(GroupForCreationDto groupForCreationDto, String owner, Long groupId) {
-        Comment comment = commentRepository.findById(groupId.toString())
+    public void update(CommentDto commentDto) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> user = userRepository.findByUserName(username);
+
+        Comment existingComment = commentRepository.findById(commentDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
-        // Update the comment properties based on the provided GroupForCreationDto and owner
-//        comment.setContent(groupForCreationDto.getContent());
-        comment.setUpdatedDate(LocalDateTime.now());
+        // Update the comment properties
+        existingComment.setContent(commentDto.getContent());
+        existingComment.setUpdatedDate(LocalDateTime.now());
+        existingComment.setPostId(commentDto.getPostId());
 
         // Save the updated comment entity
-        commentRepository.save(comment);
+        commentRepository.save(existingComment);
     }
+
+    @Override
+    public void delete(String commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+
+        // Delete the comment entity
+        commentRepository.delete(comment);
+    }
+
 
 }
