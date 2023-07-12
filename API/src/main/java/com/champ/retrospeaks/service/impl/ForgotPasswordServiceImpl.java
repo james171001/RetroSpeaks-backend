@@ -8,9 +8,9 @@ import com.champ.retrospeaks.service.EmailSenderService;
 import com.champ.retrospeaks.service.ForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -22,13 +22,16 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     private final JavaMailSender javaMailSender;
     private final EmailSenderService emailSenderService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public ForgotPasswordServiceImpl(UserRepository userRepository, ResetTokenRepository tokenRepository,
-                                     JavaMailSender javaMailSender, EmailSenderService emailSenderService) {
+                                     JavaMailSender javaMailSender, EmailSenderService emailSenderService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.javaMailSender = javaMailSender;
         this.emailSenderService = emailSenderService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -41,19 +44,27 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             String resetToken = generateResetToken();
 
             // Set the expiration time (e.g., 1 hour from now)
-            LocalDateTime expirationTime = LocalDateTime.now().plusHours(1);
+            //LocalDateTime expirationTime = LocalDateTime.now().plusHours(1);
 
             // Create and save the token in the database
             ResetToken token = new ResetToken();
             token.setToken(resetToken);
             token.setUser(user);
-            token.setExpirationTime(expirationTime);
+            //token.setExpirationTime(expirationTime);
             tokenRepository.save(token);
 
             String resetLink = generateResetLink(resetToken);
 
+            // Update the user's password
+            user.setPassWord(passwordEncoder.encode(resetToken));
+            userRepository.save(user);
+
+            // Delete the used token
+            //tokenRepository.delete(resetToken);
+
             // Send the password reset email
-            String emailContent = "Click the link below to reset your password:\n" + resetLink;
+            //String emailContent = "Click the link below to reset your password:\n" + resetLink;
+            String emailContent = "Here is your new password:\n" + resetToken;
             emailSenderService.sendEmail(email, "Password Reset", emailContent);
         }
     }
