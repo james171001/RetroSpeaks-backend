@@ -109,6 +109,18 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<GroupDto> findGroupsByUser(String owner) {
+
+        User user = userRepository.findByUserName(owner).orElseThrow( () -> new IllegalArgumentException("Invalid User"));
+
+        List<Group> groups = groupRepository.findByUsers_Id(user.getId());
+
+        return groups.stream()
+                .map(GroupMapper::toGroupDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public void followGroup(String userName, Long groupId) {
         User user = userRepository.findByUserName(userName)

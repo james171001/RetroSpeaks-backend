@@ -16,6 +16,7 @@ public class GroupMapper {
 
     public static GroupDto toGroupDto(Group group) {
         GroupDto.GroupDtoBuilder builder = GroupDto.builder()
+                .id(group.getId())
                 .name(group.getName())
                 .description(group.getDescription())
                 .createdDate(group.getCreatedDate())

@@ -2,6 +2,7 @@ package com.champ.retrospeaks.service;
 
 import com.champ.retrospeaks.dto.Group.GroupDto;
 import com.champ.retrospeaks.dto.Group.GroupForCreationDto;
+import org.springframework.data.mongodb.gridfs.GridFsUpload;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ public interface GroupService {
 
      void update (GroupForCreationDto groupForCreationDto, String owner, Long groupId);
 
-    void followGroup(String userName,Long groupId);
+     List<GroupDto> findGroupsByUser(String owner);
+
+     void followGroup(String userName,Long groupId);
      void unfollowGroup(String userName,Long groupId);
 
 

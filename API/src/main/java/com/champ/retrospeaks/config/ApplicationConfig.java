@@ -1,4 +1,4 @@
-package com.champ.retrospeaks.config.security;
+package com.champ.retrospeaks.config;
 
 import com.champ.retrospeaks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

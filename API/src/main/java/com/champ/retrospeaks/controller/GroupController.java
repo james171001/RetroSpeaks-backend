@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
+
 @RequestMapping("api/group")
 public class GroupController {
 
@@ -32,7 +33,8 @@ public class GroupController {
     //--------------- Group creation and modification starts here
     @GetMapping
     public ResponseEntity<List<GroupDto>> getAllGroups() {
-        List<GroupDto> groups = groupService.findAll();
+        String owner = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<GroupDto> groups = groupService.findGroupsByUser(owner);
         return ResponseEntity.ok(groups);
     }
     @PostMapping
