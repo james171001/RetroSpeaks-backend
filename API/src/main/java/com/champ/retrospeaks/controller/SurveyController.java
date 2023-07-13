@@ -3,6 +3,7 @@ package com.champ.retrospeaks.controller;
 import com.champ.retrospeaks.dto.Survey.ChoiceDto;
 import com.champ.retrospeaks.dto.Survey.SurveyDto;
 import com.champ.retrospeaks.model.User;
+import com.champ.retrospeaks.model.surveyModels.Survey;
 import com.champ.retrospeaks.service.SurveyService;
 import com.champ.retrospeaks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,24 @@ public class SurveyController {
     public ResponseEntity<Void> saveSurvey(@RequestBody SurveyDto surveyDto){
         surveyService.saveSurvey(surveyDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<SurveyDto>> findAllSurvey(@RequestBody SurveyDto surveyDto){
+        List<SurveyDto> surveyDtos = surveyService.findAllSurvey();
+        return ResponseEntity.ok(surveyDtos);
+    }
+
+    @GetMapping("/{surveyId}")
+    public ResponseEntity<Optional<Survey>> findAllSurveyById(@RequestParam String surveyId){
+        Optional<Survey> surveyDto = surveyService.findSurveyById(surveyId);
+        return ResponseEntity.ok(surveyDto);
+    }
+
+    @GetMapping("/{ownerId}")
+    public ResponseEntity<List<SurveyDto>> findAllSurveyByOwnerId(@RequestParam String ownerId){
+        List<SurveyDto> surveyDto = surveyService.findAllSurveyByOwnerId(ownerId);
+        return ResponseEntity.ok(surveyDto);
     }
 
     @PutMapping("/{surveyId}")

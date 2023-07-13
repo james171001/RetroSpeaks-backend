@@ -3,6 +3,7 @@ package com.champ.retrospeaks.service.impl;
 import com.champ.retrospeaks.dto.Survey.ChoiceDto;
 import com.champ.retrospeaks.dto.Survey.SurveyDto;
 import com.champ.retrospeaks.dto.Survey.SurveyQuestionsDto;
+import com.champ.retrospeaks.mapper.SurveyMapper;
 import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.model.surveyModels.Choice;
 import com.champ.retrospeaks.model.surveyModels.Survey;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.champ.retrospeaks.mapper.SurveyMapper.toSurveyDto;
 
@@ -34,6 +36,23 @@ public class SurveyServiceImpl implements SurveyService {
         this.userRepository = userRepository;
         this.surveyQuestionsRepository = surveyQuestionsRepository;
         this.choiceRepository = choiceRepository;
+    }
+
+    @Override
+    public List<SurveyDto> findAllSurvey() {
+        List<Survey> surveys = surveyRepository.findAll();
+            return surveys.stream().map(SurveyMapper::toSurveyDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Survey> findSurveyById(String surveyId) {
+        return surveyRepository.findById(surveyId);
+    }
+
+    @Override
+    public List<SurveyDto> findAllSurveyByOwnerId(String ownerId) {
+        Optional<Survey> surveys = surveyRepository.findSurveyByOwnerId(ownerId);
+        return surveys.stream().map(SurveyMapper::toSurveyDto).collect(Collectors.toList());
     }
 
     @Override
