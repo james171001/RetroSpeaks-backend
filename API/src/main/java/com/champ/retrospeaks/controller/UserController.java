@@ -2,12 +2,14 @@ package com.champ.retrospeaks.controller;
 
 import com.champ.retrospeaks.dto.Post.PostDto;
 import com.champ.retrospeaks.model.User;
+import com.champ.retrospeaks.repository.UserRepository;
 import com.champ.retrospeaks.service.PostService;
 import com.champ.retrospeaks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +22,14 @@ public class UserController {
 
     private final UserService userService;
     private final PostService postService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserController(UserService userService, PostService postService) {
+    public UserController(UserService userService, PostService postService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.postService = postService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/{userId}/Post")
@@ -74,6 +80,25 @@ public class UserController {
     public ResponseEntity<List<PostDto>>getAllPost(){
         List<PostDto> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);
+    }
+
+    //EDITING A PROFILE
+    @PutMapping("/{userId}/edit-profile")
+    public ResponseEntity<User> updateUserProfile(@PathVariable Long userId, @RequestBody User updatedUser) {
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+        if (existingUserOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User existingUser = existingUserOptional.get();
+
+        existingUser.setPassWord(passwordEncoder.encode(updatedUser.getPassword()));
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setGender(updatedUser.getGender());
+
+        User updatedUserProfile = userRepository.save(existingUser);
+        return ResponseEntity.ok(updatedUserProfile);
     }
 
 }
