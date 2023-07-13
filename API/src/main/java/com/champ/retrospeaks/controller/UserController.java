@@ -83,6 +83,18 @@ public class UserController {
     }
 
     //EDITING A PROFILE
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = userOptional.get();
+        return ResponseEntity.ok(user);
+    }
+
     @PutMapping("/{userId}/edit-profile")
     public ResponseEntity<User> updateUserProfile(@PathVariable Long userId, @RequestBody User updatedUser) {
         Optional<User> existingUserOptional = userRepository.findById(userId);

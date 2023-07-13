@@ -32,7 +32,7 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Objects> extractClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
                 .setClaims(extractClaims)

@@ -17,6 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 @Service
 public class AuthenticateServiceImpl implements AuthenticateService {
 
@@ -48,7 +52,9 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 
         User user = userRepository.findByUserName(authRequestDto.getUserName())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", user.getId());
+        String jwtToken = jwtService.generateToken(map,user);
         return AuthMapper.mapToDto(jwtToken, "Successful  Login");
     }
 
