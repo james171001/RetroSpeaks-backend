@@ -11,7 +11,7 @@ public interface SurveyService {
     public List<SurveyDto> findAllSurvey();
     public Optional<Survey> findSurveyById(String surveyId);
 
-    List<SurveyDto> findAllSurveyByOwnerId(String ownerId);
+    List<SurveyDto> findAllSurveyByOwnerId(Long ownerId);
 
     public SurveyDto saveSurvey(SurveyDto surveyDto);
 

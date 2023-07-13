@@ -35,19 +35,19 @@ public class SurveyController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<SurveyDto>> findAllSurvey(@RequestBody SurveyDto surveyDto){
+    public ResponseEntity<List<SurveyDto>> findAllSurvey(){
         List<SurveyDto> surveyDtos = surveyService.findAllSurvey();
         return ResponseEntity.ok(surveyDtos);
     }
 
     @GetMapping("/{surveyId}")
-    public ResponseEntity<Optional<Survey>> findAllSurveyById(@RequestParam String surveyId){
+    public ResponseEntity<Optional<Survey>> findAllSurveyById(@PathVariable String surveyId){
         Optional<Survey> surveyDto = surveyService.findSurveyById(surveyId);
         return ResponseEntity.ok(surveyDto);
     }
 
-    @GetMapping("/{ownerId}")
-    public ResponseEntity<List<SurveyDto>> findAllSurveyByOwnerId(@RequestParam String ownerId){
+    @GetMapping("/user/{ownerId}")
+    public ResponseEntity<List<SurveyDto>> findAllSurveyByOwnerId(@PathVariable Long ownerId){
         List<SurveyDto> surveyDto = surveyService.findAllSurveyByOwnerId(ownerId);
         return ResponseEntity.ok(surveyDto);
     }

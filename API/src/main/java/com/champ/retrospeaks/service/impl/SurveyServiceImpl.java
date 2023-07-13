@@ -50,7 +50,7 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<SurveyDto> findAllSurveyByOwnerId(String ownerId) {
+    public List<SurveyDto> findAllSurveyByOwnerId(Long ownerId) {
         Optional<Survey> surveys = surveyRepository.findSurveyByOwnerId(ownerId);
         return surveys.stream().map(SurveyMapper::toSurveyDto).collect(Collectors.toList());
     }
