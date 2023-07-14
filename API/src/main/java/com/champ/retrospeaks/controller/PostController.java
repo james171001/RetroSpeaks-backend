@@ -23,34 +23,55 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> savePost(@RequestBody PostDto postDto){
-        postService.savePost(postDto);
-        return ResponseEntity.ok(postDto);
+    public ResponseEntity<PostDto> savePost(@RequestBody PostDto postDto) throws Exception {
+        try{
+            postService.savePost(postDto);
+            return ResponseEntity.ok(postDto);
+        }catch (Exception e){
+            throw new Exception("Error Saving Post "+ e.getMessage());
+        }
     }
 
 
     @GetMapping("/view-post/{id}")
-    public ResponseEntity<PostDto> getPostByID(@PathVariable String id){
-        PostDto postDto = postService.getPostById(id);
-        return ResponseEntity.ok(postDto);
+    public ResponseEntity<PostDto> getPostByID(@PathVariable String id) throws Exception {
+        try{
+            PostDto postDto = postService.getPostById(id);
+            return ResponseEntity.ok(postDto);
+        }catch (Exception e){
+            throw new Exception("Error Getting Post "+ e.getMessage());
+        }
     }
 
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) {
-        List<PostDto> posts = postService.getAllPostByGroupId(groupId);
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<List<PostDto>> getPostsByGroupId(@PathVariable int groupId) throws Exception {
+        try{
+            List<PostDto> posts = postService.getAllPostByGroupId(groupId);
+            return ResponseEntity.ok(posts);
+        }catch (Exception e){
+            throw new Exception("Error Getting Post "+ e.getMessage());
+        }
+
     }
 
     @GetMapping("/user/{userID}")
-    public ResponseEntity<List<PostDto>> getAllPostByUSerID(@PathVariable Long userID){
-        List<PostDto> posts = postService.getAllPostByUserID(userID);
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<List<PostDto>> getAllPostByUSerID(@PathVariable Long userID) throws Exception {
+        try{
+            List<PostDto> posts = postService.getAllPostByUserID(userID);
+            return ResponseEntity.ok(posts);
+        }catch (Exception e){
+            throw new Exception("Error Getting Post "+ e.getMessage());
+        }
     }
     @GetMapping("/")
-    public ResponseEntity<List<PostDto>> getAllPost(){
-        List<PostDto> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<List<PostDto>> getAllPost() throws Exception {
+        try{
+            List<PostDto> posts = postService.getAllPosts();
+            return ResponseEntity.ok(posts);
+        }catch (Exception e){
+            throw new Exception("Error Getting Post "+ e.getMessage());
+        }
     }
 
     @GetMapping("/agreeToPost/{id}")
@@ -95,9 +116,13 @@ public class PostController {
     }
 
     @DeleteMapping("/delete-post/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable String id) {
-        postService.deletePostById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deletePost(@PathVariable String id) throws Exception {
+        try{
+            postService.deletePostById(id);
+            return ResponseEntity.noContent().build();
+        }catch (Exception e){
+            throw new Exception("Error Deleting Post "+ e.getMessage());
+        }
     }
 
 }
