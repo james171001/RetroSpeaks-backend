@@ -2,10 +2,8 @@ package com.champ.retrospeaks.controller;
 
 
 import com.champ.retrospeaks.dto.Post.PostDto;
-import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +23,9 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> savePost(@RequestBody PostDto postDto){
+    public ResponseEntity<PostDto> savePost(@RequestBody PostDto postDto){
         postService.savePost(postDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(postDto);
     }
 
 
