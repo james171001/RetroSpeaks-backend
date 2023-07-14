@@ -20,7 +20,8 @@ public class GroupMapper {
                 .name(group.getName())
                 .description(group.getDescription())
                 .createdDate(group.getCreatedDate())
-                .updatedDate(group.getUpdatedDate());
+                .updatedDate(group.getUpdatedDate())
+                .categoryType(group.getCategoryType());
 
         if (group.getUsers() != null) {
             List<UserDto> userDtos = group.getUsers().stream().map(UserMapper::toUserDto).collect(Collectors.toList());
@@ -39,6 +40,7 @@ public class GroupMapper {
         return Group.builder()
                 .name(groupForCreationDto.getName())
                 .description(groupForCreationDto.getDescription())
+                .categoryType(groupForCreationDto.getCategoryType())
                 .build();
     }
 }

@@ -1,13 +1,16 @@
-package com.champ.retrospeaks.model;
-
-import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
-@Data
-public class Category {
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String categoryID;
-}
+//package com.champ.retrospeaks.model;
+//
+//import javax.persistence.*;
+//
+//
+//
+//@Entity(name = "categories")
+//public enum Category {
+//
+//        ENTERTAINMENT,
+//        LIFESTYLE,
+//        SCIENCE_AND_TECHNOLOGY,
+//        HISTORY,
+//        BUSINESS_AND_FINANCE
+//}
+//

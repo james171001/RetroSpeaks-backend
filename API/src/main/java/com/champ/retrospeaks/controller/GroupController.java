@@ -37,16 +37,34 @@ public class GroupController {
         List<GroupDto> groups = groupService.findGroupsByUser(owner);
         return ResponseEntity.ok(groups);
     }
+//    @PostMapping
+//    public ResponseEntity<List<GroupDto>> createGroup(@RequestBody GroupForCreationDto groupForCreationDto) {
+//        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (userName == null) {
+//            throw new IllegalArgumentException("No username found");
+//        }
+//        groupService.create(groupForCreationDto, userName);
+//        List<GroupDto> groups = groupService.findAll();
+//        return ResponseEntity.ok(groups);
+//    }
+
     @PostMapping
     public ResponseEntity<List<GroupDto>> createGroup(@RequestBody GroupForCreationDto groupForCreationDto) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userName == null) {
             throw new IllegalArgumentException("No username found");
         }
+
+        // Validate category_type
+        if (groupForCreationDto.getCategoryType() == null || groupForCreationDto.getCategoryType().equals("")) {
+            throw new IllegalArgumentException("Category type is required.");
+        }
+
         groupService.create(groupForCreationDto, userName);
         List<GroupDto> groups = groupService.findAll();
         return ResponseEntity.ok(groups);
     }
+
 
     @GetMapping("/{groupId}")
     public ResponseEntity<GroupDto> getGroupById(@PathVariable("groupId") Long id) {

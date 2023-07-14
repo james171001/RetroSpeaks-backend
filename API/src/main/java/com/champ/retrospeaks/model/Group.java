@@ -37,4 +37,17 @@ public class Group {
     @ManyToMany(mappedBy ="groups",cascade = CascadeType.ALL)
 
     private List<User> users;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category_type", nullable=false)
+    private CategoryType categoryType;
+    public enum CategoryType {
+        ENTERTAINMENT,
+        LIFESTYLE,
+        SCIENCE_AND_TECHNOLOGY,
+        HISTORY,
+        BUSINESS_AND_FINANCE;
+
+
+    }
 }

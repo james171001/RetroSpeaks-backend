@@ -65,6 +65,24 @@ public class GroupServiceImpl implements GroupService {
     }
 
 
+//    @Override
+//    @Transactional
+//    public void create(GroupForCreationDto groupForCreationDto, String userName) {
+//        User owner = userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
+//
+//        Group group = GroupMapper.toGroup(groupForCreationDto);
+//        group.setGroupOwner(owner.getId());
+//        group.setCategoryType(groupForCreationDto.getCategoryType());
+//
+//        try {
+//            groupRepository.save(group);
+//        } catch (Exception e) {
+//            // Handle the exception appropriately, e.g., log or rethrow
+//            throw new RuntimeException("Failed to create group.", e);
+//        }
+//    }
+
     @Override
     @Transactional
     public void create(GroupForCreationDto groupForCreationDto, String userName) {
@@ -74,6 +92,13 @@ public class GroupServiceImpl implements GroupService {
         Group group = GroupMapper.toGroup(groupForCreationDto);
         group.setGroupOwner(owner.getId());
 
+        // Check if categoryType is null or empty
+        if (groupForCreationDto.getCategoryType() == null || groupForCreationDto.getCategoryType().equals("")) {
+            throw new IllegalArgumentException("Category type is required.");
+        }
+
+        group.setCategoryType(groupForCreationDto.getCategoryType());
+
         try {
             groupRepository.save(group);
         } catch (Exception e) {
@@ -81,6 +106,33 @@ public class GroupServiceImpl implements GroupService {
             throw new RuntimeException("Failed to create group.", e);
         }
     }
+
+
+//    @Override
+//    @Transactional
+//    public void update(GroupForCreationDto groupForCreationDto, String userName, Long groupId) {
+//        User owner = userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
+//
+//        Group group = groupRepository.findById(groupId)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid Group ID"));
+//
+//        if (!group.getGroupOwner().equals(owner.getId())) {
+//            throw new IllegalArgumentException("Only the group owner can update the group.");
+//        }
+//        if (groupRepository.existsByNameIgnoreCaseAndIdNot(groupForCreationDto.getName(),groupId)) {
+//            throw new IllegalArgumentException("Group name must be unique.");
+//        }
+//        group.setName(groupForCreationDto.getName());
+//        group.setDescription(group.getDescription());
+//
+//        try {
+//            groupRepository.save(group);
+//        } catch (Exception e) {
+//            // Handle the exception appropriately, e.g., log or rethrow
+//            throw new RuntimeException("Failed to update group.", e);
+//        }
+//    }
 
     @Override
     @Transactional
@@ -94,11 +146,11 @@ public class GroupServiceImpl implements GroupService {
         if (!group.getGroupOwner().equals(owner.getId())) {
             throw new IllegalArgumentException("Only the group owner can update the group.");
         }
-        if (groupRepository.existsByNameIgnoreCaseAndIdNot(groupForCreationDto.getName(),groupId)) {
+        if (groupRepository.existsByNameIgnoreCaseAndIdNot(groupForCreationDto.getName(), groupId)) {
             throw new IllegalArgumentException("Group name must be unique.");
         }
         group.setName(groupForCreationDto.getName());
-        group.setDescription(group.getDescription());
+        group.setDescription(groupForCreationDto.getDescription()); // Modified line
 
         try {
             groupRepository.save(group);
@@ -107,6 +159,7 @@ public class GroupServiceImpl implements GroupService {
             throw new RuntimeException("Failed to update group.", e);
         }
     }
+
 
     @Override
     public List<GroupDto> findGroupsByUser(String owner) {
