@@ -32,6 +32,7 @@ public class SurveyMapper {
                 ChoiceDto choiceDto = new ChoiceDto();
                 choiceDto.setId(choice.getId());
                 choiceDto.setChoiceTitle(choice.getChoiceTitle());
+                choiceDto.setChoiceType(choice.getChoiceType());
                 choiceDto.setChoiceVoteCount(choice.getChoiceVoteCount());
 
                 choiceDtos.add(choiceDto);

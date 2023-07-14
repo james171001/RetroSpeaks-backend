@@ -118,6 +118,7 @@ public class SurveyServiceImpl implements SurveyService {
                             choice.setChosen(updatedChoice.isChosen());
                             if (updatedChoice.isChosen()) {
                                 choice.setChoiceVoteCount(choice.getChoiceVoteCount() + 1);
+                                choice.setChosen(false);
                             }
                             choiceRepository.save(choice);
                             break;
