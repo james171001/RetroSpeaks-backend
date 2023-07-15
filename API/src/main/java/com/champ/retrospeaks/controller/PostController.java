@@ -1,7 +1,10 @@
 package com.champ.retrospeaks.controller;
 
 
+import com.champ.retrospeaks.dto.Post.PostDataDto;
 import com.champ.retrospeaks.dto.Post.PostDto;
+import com.champ.retrospeaks.model.PostData;
+import com.champ.retrospeaks.service.PostDataService;
 import com.champ.retrospeaks.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +14,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.champ.retrospeaks.mapper.toPostDataDto.toPostDataDto;
+
 @RestController
 @RequestMapping("api/post")
 public class PostController {
 
     private final PostService postService;
+    private final PostDataService postDataService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PostDataService postDataService) {
         this.postService = postService;
+        this.postDataService = postDataService;
     }
 
     @PostMapping
@@ -37,6 +44,7 @@ public class PostController {
     public ResponseEntity<PostDto> getPostByID(@PathVariable String id) throws Exception {
         try{
             PostDto postDto = postService.getPostById(id);
+            postDataService.updatePostDataInteraction(id);
             return ResponseEntity.ok(postDto);
         }catch (Exception e){
             throw new Exception("Error Getting Post "+ e.getMessage());
@@ -75,9 +83,22 @@ public class PostController {
     }
 
     @GetMapping("/agreeToPost/{id}")
-    public ResponseEntity<PostDto> voteAgreeToPost(@PathVariable String id) {
+    public ResponseEntity<PostDto> voteAgreeToPost(@PathVariable String id) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<PostDto> postOptional = postService.agreePost(id, username);
+
+        if(!postDataService.findPostDataById(id).isPresent()){
+            PostDataDto postDataDto = new PostDataDto();
+            postDataDto.setId(id);
+            postDataDto.setInteractionCount(1);
+            postDataService.savePostData(postDataDto);
+        }
+        else{
+            Optional<PostData> postData = postDataService.findPostDataById(id);
+            postData.get().setInteractionCount(postData.get().getInteractionCount()+1);
+            postDataService.savePostData(toPostDataDto(postData));
+        }
+
         if (postOptional.isPresent()) {
             PostDto postDto = postOptional.get();
             return ResponseEntity.ok(postDto);
@@ -88,9 +109,10 @@ public class PostController {
     }
 
     @GetMapping("/disagreeToPost/{id}")
-    public ResponseEntity<PostDto> voteDisagreeToPost(@PathVariable String id) {
+    public ResponseEntity<PostDto> voteDisagreeToPost(@PathVariable String id) throws Exception {
        String username =  SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<PostDto> postOptional = postService.disAgreePost(id, username);
+        postDataService.updatePostDataInteraction(id);
         if (postOptional.isPresent()) {
             PostDto postDto = postOptional.get();
             return ResponseEntity.ok(postDto);
