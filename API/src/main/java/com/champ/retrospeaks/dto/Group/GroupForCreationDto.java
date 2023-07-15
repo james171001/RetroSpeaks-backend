@@ -1,6 +1,7 @@
 package com.champ.retrospeaks.dto.Group;
 
 
+import com.champ.retrospeaks.dto.Category.CategoryDTO;
 import com.champ.retrospeaks.model.Group;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,5 @@ public class GroupForCreationDto {
 
     private String name;
     private String description;
-    private Group.CategoryType categoryType;
-
+    private Long categoryId;
 }

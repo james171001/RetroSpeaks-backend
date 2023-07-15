@@ -100,7 +100,7 @@ public class PostController {
         }
     }
 
-    @PutMapping("/update-post/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@PathVariable String id, @RequestBody PostDto postDto) {
         postDto.setId(id); // Set the ID of the postDto based on the path variable
 

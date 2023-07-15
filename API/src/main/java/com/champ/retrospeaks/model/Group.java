@@ -38,16 +38,9 @@ public class Group {
 
     private List<User> users;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category_type", nullable=false)
-    private CategoryType categoryType;
-    public enum CategoryType {
-        ENTERTAINMENT,
-        LIFESTYLE,
-        SCIENCE_AND_TECHNOLOGY,
-        HISTORY,
-        BUSINESS_AND_FINANCE;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 
-    }
 }

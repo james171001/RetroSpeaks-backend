@@ -1,7 +1,7 @@
 package com.champ.retrospeaks.dto.Group;
 
+import com.champ.retrospeaks.dto.Category.CategoryDTO;
 import com.champ.retrospeaks.dto.User.UserDto;
-import com.champ.retrospeaks.model.Group;
 import lombok.Builder;
 import lombok.Data;
 
@@ -26,7 +26,8 @@ public class GroupDto {
 
 
     private List<UserDto> users = new ArrayList<>();
-    private Group.CategoryType categoryType;
+
+    private CategoryDTO category;
 
 
 }

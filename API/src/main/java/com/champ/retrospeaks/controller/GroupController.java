@@ -55,10 +55,6 @@ public class GroupController {
             throw new IllegalArgumentException("No username found");
         }
 
-        // Validate category_type
-        if (groupForCreationDto.getCategoryType() == null || groupForCreationDto.getCategoryType().equals("")) {
-            throw new IllegalArgumentException("Category type is required.");
-        }
 
         groupService.create(groupForCreationDto, userName);
         List<GroupDto> groups = groupService.findAll();
@@ -152,5 +148,6 @@ public class GroupController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 }

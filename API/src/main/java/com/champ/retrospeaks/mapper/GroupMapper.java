@@ -3,6 +3,7 @@ package com.champ.retrospeaks.mapper;
 import com.champ.retrospeaks.dto.Group.GroupDto;
 import com.champ.retrospeaks.dto.Group.GroupForCreationDto;
 import com.champ.retrospeaks.dto.User.UserDto;
+import com.champ.retrospeaks.model.Category;
 import com.champ.retrospeaks.model.Group;
 
 import java.util.Collections;
@@ -21,13 +22,12 @@ public class GroupMapper {
                 .description(group.getDescription())
                 .createdDate(group.getCreatedDate())
                 .updatedDate(group.getUpdatedDate())
-                .categoryType(group.getCategoryType());
+                .category(CategoryMapper.toDto(group.getCategory()));
 
         if (group.getUsers() != null) {
             List<UserDto> userDtos = group.getUsers().stream().map(UserMapper::toUserDto).collect(Collectors.toList());
             builder.users(userDtos);
-        }
-        else{
+        } else {
             builder.users(Collections.emptyList());
         }
 
@@ -35,12 +35,13 @@ public class GroupMapper {
     }
 
 
-    public static Group toGroup(GroupForCreationDto groupForCreationDto) {
+    public static Group toGroup(GroupForCreationDto groupForCreationDto, Category category) {
+
 
         return Group.builder()
                 .name(groupForCreationDto.getName())
                 .description(groupForCreationDto.getDescription())
-                .categoryType(groupForCreationDto.getCategoryType())
+                .category(category)
                 .build();
     }
 }

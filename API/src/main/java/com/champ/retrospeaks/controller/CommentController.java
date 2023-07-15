@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/group/{groupId}/post/{postId}")
+@RequestMapping("api/group/{groupId}/post/{postId}/comment")
 public class CommentController {
 
     private final CommentService commentService;
@@ -20,12 +20,24 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping ("/comments/save")
-    public ResponseEntity<Void> createComment(@RequestBody CommentDto commentDto)
+    @PostMapping ()
+    public ResponseEntity<Void> createComment(@RequestBody CommentDto commentDto,@PathVariable String postId)
     {
+        commentDto.setPostId(postId);
         commentService.create(commentDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @PostMapping("/{commentId}")
+    public ResponseEntity<Void> replyOnComment(@PathVariable("commentId") String commentId, @PathVariable String postId,
+                                              @RequestBody CommentDto commentDto)
+    {
+        commentDto.setParentCommentID(commentId);
+        commentDto.setPostId(postId);
+        commentService.create(commentDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
 
     @PutMapping("/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable("commentId") String commentId,
