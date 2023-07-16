@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -31,8 +32,8 @@ public class Post {
     private String content;
     private LocalDateTime postDate;
 
-    @DocumentReference(lazy = true)
-    private List<Comment> comments;
+
+    private List<Comment> comments =new ArrayList<>();
 
     private String category;
     private int groupId;

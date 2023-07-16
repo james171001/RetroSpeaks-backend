@@ -1,11 +1,15 @@
 package com.champ.retrospeaks.mapper;
 
+import com.champ.retrospeaks.dto.Comment.CommentDto;
 import com.champ.retrospeaks.dto.Post.PostDto;
 import com.champ.retrospeaks.model.Post;
 import com.champ.retrospeaks.repository.UserRepository;
 import com.champ.retrospeaks.service.UserService;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class PostMapper {
@@ -27,18 +31,28 @@ public class PostMapper {
                 .build();
     }
 
-    public static PostDto toPostDto(Optional<Post> post){
+    public static PostDto toPostDto(Optional<Post> post) {
+        List<CommentDto> commentDtoList = post
+                .map(Post::getComments)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(CommentMapper::toDto)
+                .collect(Collectors.toList());
 
         return PostDto.builder()
+                .id(post.get().getId())
+                .userID(post.get().getUserID())
                 .username(post.get().getUsername())
                 .postType(post.get().getPostType())
                 .title(post.get().getTitle())
                 .content(post.get().getContent())
                 .postDate(post.get().getPostDate())
                 .category(post.get().getCategory())
+                .comments(commentDtoList)
                 .groupId(post.get().getGroupId())
                 .agreeCount(post.get().getAgreeCount())
                 .disagreeCount(post.get().getDisagreeCount())
                 .build();
     }
+
 }

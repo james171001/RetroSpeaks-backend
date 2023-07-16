@@ -54,8 +54,6 @@ public class GroupController {
         if (userName == null) {
             throw new IllegalArgumentException("No username found");
         }
-
-
         groupService.create(groupForCreationDto, userName);
         List<GroupDto> groups = groupService.findAll();
         return ResponseEntity.ok(groups);

@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,11 +37,14 @@ public class Group {
 
     @ManyToMany(mappedBy ="groups",cascade = CascadeType.ALL)
 
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
+    public void addUser(User user) {
+        users.add(user);
+        user.getGroups().add(this);
+    }
 
 }

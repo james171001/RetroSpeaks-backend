@@ -35,15 +35,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void create(CommentDto commentDto) {
+    public void create(CommentDto commentDto,String postId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         Optional<User> user = userRepository.findByUserName(username);
-
+        Post post = postRepository.findById(postId).orElseThrow(()->  new IllegalArgumentException("Invalid post Id"));
         commentDto.setUserId(user.get().getId());
+        commentDto.setPostId(postId);
         commentDto.setCommentDate();
+        Comment comment = CommentMapper.toEntity(commentDto);
 
-        // Save the comment entity
-        commentRepository.save(commentMapper.toEntity(commentDto));
+        post.getComments().add(comment);
+
+
+        postRepository.save(post);
+        commentRepository.save(comment);
     }
 
     @Override

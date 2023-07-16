@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,7 +96,6 @@ public class GroupServiceImpl implements GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
 
         Category category = categoryRepository.getReferenceById(groupForCreationDto.getCategoryId());
-
         try {
             Group group = GroupMapper.toGroup(groupForCreationDto, category);
             group.setGroupOwner(owner.getId());
@@ -108,6 +108,7 @@ public class GroupServiceImpl implements GroupService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to create group.", e);
         }
+
     }
 
 

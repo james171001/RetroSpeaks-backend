@@ -23,8 +23,8 @@ public class CommentController {
     @PostMapping ()
     public ResponseEntity<Void> createComment(@RequestBody CommentDto commentDto,@PathVariable String postId)
     {
-        commentDto.setPostId(postId);
-        commentService.create(commentDto);
+
+        commentService.create(commentDto,postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PostMapping("/{commentId}")
@@ -32,8 +32,7 @@ public class CommentController {
                                               @RequestBody CommentDto commentDto)
     {
         commentDto.setParentCommentID(commentId);
-        commentDto.setPostId(postId);
-        commentService.create(commentDto);
+        commentService.create(commentDto,postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
