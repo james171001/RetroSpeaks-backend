@@ -71,6 +71,23 @@ public class GroupServiceImpl implements GroupService {
 
 
 
+//    @Override
+//    @Transactional
+//    public void create(GroupForCreationDto groupForCreationDto, String userName) {
+//        User owner = userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid User Name"));
+//
+//        Category category = categoryRepository.getReferenceById(groupForCreationDto.getCategoryId());
+//
+//        try {
+//            Group group = GroupMapper.toGroup(groupForCreationDto, category);
+//            group.setGroupOwner(owner.getId());
+//            groupRepository.save(group);
+//        } catch (Exception e) {
+//            throw new RuntimeException("Failed to create group.", e);
+//        }
+//    }
+
     @Override
     @Transactional
     public void create(GroupForCreationDto groupForCreationDto, String userName) {
@@ -83,10 +100,16 @@ public class GroupServiceImpl implements GroupService {
             Group group = GroupMapper.toGroup(groupForCreationDto, category);
             group.setGroupOwner(owner.getId());
             groupRepository.save(group);
+
+            //group.getUsers().add(owner);
+            owner.getGroups().add(group);
+            userRepository.save(owner);
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to create group.", e);
         }
     }
+
 
 
     @Override

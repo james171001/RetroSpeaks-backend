@@ -6,6 +6,7 @@ import com.champ.retrospeaks.dto.User.UserDto;
 import com.champ.retrospeaks.model.Category;
 import com.champ.retrospeaks.model.Group;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ public class GroupMapper {
                 .name(groupForCreationDto.getName())
                 .description(groupForCreationDto.getDescription())
                 .category(category)
+                .users(new ArrayList<>())
                 .build();
     }
+
 }
