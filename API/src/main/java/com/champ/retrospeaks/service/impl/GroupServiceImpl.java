@@ -101,7 +101,7 @@ public class GroupServiceImpl implements GroupService {
             group.setGroupOwner(owner.getId());
             groupRepository.save(group);
 
-            //group.getUsers().add(owner);
+            group.getUsers().add(owner);
             owner.getGroups().add(group);
             userRepository.save(owner);
 
