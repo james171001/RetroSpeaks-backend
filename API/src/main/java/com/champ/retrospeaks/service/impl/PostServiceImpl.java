@@ -117,7 +117,7 @@ public class PostServiceImpl implements PostService {
                 currentUser.get();
                 voterList.add(currentUser.get().getId());
                 int disagreeCount = post.getDisagreeCount() + 1;
-                post.setAgreeCount(disagreeCount);
+                post.setDisagreeCount(disagreeCount);
                 post.setVoterList(voterList);
                 postRepository.save(post);
             }
@@ -126,7 +126,7 @@ public class PostServiceImpl implements PostService {
                 if (!existingVoters.contains(currentUser.get().getId())) {
                     existingVoters.add(currentUser.get().getId());
                     int disagreeCount = post.getDisagreeCount() + 1;
-                    post.setAgreeCount(disagreeCount);
+                    post.setDisagreeCount(disagreeCount);
                     post.setVoterList(existingVoters);
                     postRepository.save(post);
                 }
