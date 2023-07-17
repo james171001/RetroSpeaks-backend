@@ -32,12 +32,6 @@ public class PostMapper {
     }
 
     public static PostDto toPostDto(Optional<Post> post) {
-        List<CommentDto> commentDtoList = post
-                .map(Post::getComments)
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(CommentMapper::toDto)
-                .collect(Collectors.toList());
 
         return PostDto.builder()
                 .id(post.get().getId())
@@ -48,7 +42,6 @@ public class PostMapper {
                 .content(post.get().getContent())
                 .postDate(post.get().getPostDate())
                 .category(post.get().getCategory())
-                .comments(commentDtoList)
                 .groupId(post.get().getGroupId())
                 .agreeCount(post.get().getAgreeCount())
                 .disagreeCount(post.get().getDisagreeCount())

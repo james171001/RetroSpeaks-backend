@@ -9,6 +9,7 @@ public class CommentMapper {
     public static CommentDto toDto(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
+                .commenter(comment.getCommenter())
                 .userId(comment.getUserId())
                 .content(comment.getContent())
                 .createdDate(comment.getCreatedDate())
@@ -21,6 +22,7 @@ public class CommentMapper {
     public static Comment toEntity(CommentDto commentDto) {
         return Comment.builder()
                 .id(commentDto.getId())
+                .commenter(commentDto.getCommenter())
                 .userId(commentDto.getUserId())
                 .content(commentDto.getContent())
                 .createdDate(commentDto.getCreatedDate())

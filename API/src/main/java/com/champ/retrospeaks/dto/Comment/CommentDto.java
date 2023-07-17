@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentDto {
     private String id;
+    private String commenter;
     private Long userId;
     private String content;
 

@@ -16,7 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -40,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
 
         Optional<User> user = userRepository.findByUserName(username);
         Post post = postRepository.findById(postId).orElseThrow(()->  new IllegalArgumentException("Invalid post Id"));
+        commentDto.setCommenter(user.get().getUsername());
         commentDto.setUserId(user.get().getId());
         commentDto.setPostId(postId);
         commentDto.setCommentDate();
@@ -78,5 +82,14 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
     }
 
+    @Override
+    public List<CommentDto> getAllCommentsByPostId(String postId) {
+        List<Comment> comments = commentRepository.findCommentByPostId(postId);
+        return comments.stream()
+                .map(CommentMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
 }
+
+
