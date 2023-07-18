@@ -1,7 +1,6 @@
 package com.champ.retrospeaks.dto.User;
 
 
-import com.champ.retrospeaks.repository.UserRepository;
 import lombok.Builder;
 import lombok.Data;
 

@@ -30,6 +30,7 @@ public class Comment {
 
     private LocalDateTime updatedDate;
 
+
     private String parentCommentID;
 
     private String postId;

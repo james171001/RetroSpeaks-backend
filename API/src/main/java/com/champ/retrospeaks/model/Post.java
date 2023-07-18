@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +31,6 @@ public class Post {
     private String title;
     private String content;
     private LocalDateTime postDate;
-
 
     private List<Comment> comments =new ArrayList<>();
 

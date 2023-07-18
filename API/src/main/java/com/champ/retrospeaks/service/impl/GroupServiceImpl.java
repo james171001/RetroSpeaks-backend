@@ -9,13 +9,10 @@ import com.champ.retrospeaks.model.User;
 import com.champ.retrospeaks.repository.CategoryRepository;
 import com.champ.retrospeaks.repository.GroupRepository;
 import com.champ.retrospeaks.repository.UserRepository;
-import com.champ.retrospeaks.service.CategoryService;
 import com.champ.retrospeaks.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,18 +41,14 @@ public class GroupServiceImpl implements GroupService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Group does not exist");
         }
-
         return GroupMapper.toGroupDto(group);
     }
-
     @Override
     public List<GroupDto> findAll() {
         List<Group> groups = groupRepository.findAll();
-
         if (groups.isEmpty()) {
             return Collections.emptyList();
         }
-
         return groups.stream()
                 .map(GroupMapper::toGroupDto)
                 .collect(Collectors.toList());
@@ -66,7 +59,6 @@ public class GroupServiceImpl implements GroupService {
         boolean isExist;
         isExist = groupRepository.existsById(id);
         return isExist;
-
 
     }
 

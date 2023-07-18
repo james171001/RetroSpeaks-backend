@@ -71,39 +71,39 @@ public class GroupController {
     }
 
     @PutMapping("/{groupId}")
-    public ResponseEntity<List<GroupDto>> updateGroup(@RequestBody GroupForCreationDto groupForCreationDto,
-                                                      @PathVariable("groupId") Long id) {
+    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupForCreationDto groupForCreationDto,
+                                                      @PathVariable Long groupId) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userName == null) {
             throw new IllegalArgumentException("No username found");
         }
-        groupService.update(groupForCreationDto, userName, id);
+        groupService.update(groupForCreationDto, userName, groupId);
 
-        List<GroupDto> groups = groupService.findAll();
-        return ResponseEntity.ok(groups);
-    }
+    GroupDto groupDto = groupService.getById(groupId);
+        return ResponseEntity.ok(groupDto);
+}
 
     @PutMapping("/{groupId}/follow")
-    public ResponseEntity<List<GroupDto>> followGroup(@PathVariable("groupId") Long id) {
+    public ResponseEntity<GroupDto> followGroup(@PathVariable("groupId") Long id) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userName == null) {
             throw new IllegalArgumentException("No username found");
         }
         groupService.followGroup(userName,id);
-        List<GroupDto> groups = groupService.findAll();
-        return ResponseEntity.ok(groups);
+       GroupDto groupDto = groupService.getById(id);
+        return ResponseEntity.ok(groupDto);
     }
 
     @PutMapping("/{groupId}/unfollow")
-    public ResponseEntity<List<GroupDto>> unfollowGroup(@PathVariable("groupId") Long id) {
+    public ResponseEntity<GroupDto> unfollowGroup(@PathVariable("groupId") Long id) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userName == null) {
             throw new IllegalArgumentException("No username found");
         }
         groupService.unfollowGroup(userName,id);
 
-        List<GroupDto> groups = groupService.findAll();
-        return ResponseEntity.ok(groups);
+        GroupDto groupDto = groupService.getById(id);
+        return ResponseEntity.ok(groupDto);
     }
 
     //--------------- Group creation and modification ends here

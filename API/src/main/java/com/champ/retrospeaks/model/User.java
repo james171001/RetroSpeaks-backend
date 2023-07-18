@@ -3,6 +3,7 @@ package com.champ.retrospeaks.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,6 +25,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
+
     private String userName;
 
     private String passWord;
